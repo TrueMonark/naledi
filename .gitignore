@@ -15,6 +15,11 @@ dist-ssr/
 *.tar
 *.gz
 
+public/images/
+public/files/
+server/uploads/
+*.pdf
+
 # Logs
 logs
 *.log
