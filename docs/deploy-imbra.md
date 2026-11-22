@@ -128,7 +128,12 @@ the plan doesn't have enough memory to build. Tell me and I'll give you a versio
    You can then delete `ADMIN_PASSWORD` from the Environment tab. It's only used when there are no admin accounts yet.
 5. Fill in **Site Content** (logo, contacts, photos) and add your news, gallery photos and devotions.
 
-## If something isn't right — check the Log Viewer
+## If something isn't right — open the status page
+
+Open **https://naledischool.org/api/health** in a browser. It shows, in plain words, whether the database is connected,
+how many admin accounts exist, which settings are filled in (never their values), and exactly what to fix if not.
+
+## …or check the Log Viewer
 
 naledischool.org → **Log Viewer**. The site writes plain-English lines starting with `[startup]` or `[db-setup]`:
 

@@ -14,6 +14,7 @@ function resolveDatabaseUrl(env = process.env) {
   const auth = env.DB_PASSWORD ? `${enc(env.DB_USER.trim())}:${enc(env.DB_PASSWORD)}` : enc(env.DB_USER.trim());
   const url = `postgresql://${auth}@${host}:${port}/${enc(env.DB_NAME.trim())}?schema=public`;
   env.DATABASE_URL = url;
+  env.DATABASE_URL_SOURCE = "built from DB_* settings";
   return url;
 }
 module.exports = { resolveDatabaseUrl };

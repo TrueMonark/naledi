@@ -5,7 +5,7 @@ import { PrismaClient } from "@/generated/prisma/client";
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
 /** DATABASE_URL, or built from DB_HOST / DB_PORT / DB_NAME / DB_USER / DB_PASSWORD (passwords safely encoded). */
-function databaseUrl() {
+export function databaseUrl() {
   const e = process.env;
   // Separate DB_* settings win, so a leftover DATABASE_URL in an old .env can't override the panel settings.
   if (!e.DB_NAME || !e.DB_USER) return e.DATABASE_URL?.trim() || undefined;
