@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("admin") // "admin" | "editor"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BlogPost {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  excerpt     String   @default("")
+  content     String
+  image       String   @default("")
+  /// Extra photos for the post (up to 50) — shown on the article and shared to Facebook with the cover image.
+  photos      String[] @default([])
+  author      String   @default("Naledi School")
+  category    String   @default("News")
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  /// Facebook Page sharing (see docs/facebook-setup.md)
+  facebookPostId   String    @default("")
+  /// All Facebook post ids when a large photo set had to be split over several posts.
+  facebookPostIds  String[]  @default([])
+  facebookPostedAt DateTime?
+  facebookError    String    @default("")
+
+  @@index([published, createdAt])
+}
+
+model GalleryImage {
+  id          String   @id @default(uuid())
+  title       String
+  description String   @default("")
+  image       String
+  category    String   @default("General")
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Devotion {
+  id        String   @id @default(uuid())
+  title     String
+  scripture String   @default("")
+  content   String
+  author    String   @default("School Chaplain")
+  pdf       String   @default("")
+  date      DateTime @default(now())
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String   @default("")
+  subject   String   @default("")
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+/// Generic CMS: one row per editable piece of static page content.
+model PageContent {
+  id        String   @id @default(uuid())
+  page      String
+  section   String
+  type      String   // "text" | "textarea" | "image" | "video"
+  label     String
+  value     String   @default("")
+  sortOrder Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@unique([page, section])
+}
+
+/// Homepage feature video, controlled from Admin → Homepage Video.
+model VideoSetting {
+  id         String   @id @default("homepage")
+  enabled    Boolean  @default(true)
+  sourceType String   @default("upload") // "upload" | "youtube" | "url"
+  url        String   @default("")
+  poster     String   @default("")
+  title      String   @default("See Naledi in Action")
+  caption    String   @default("")
+  autoplay   Boolean  @default(false)
+  muted      Boolean  @default(true)
+  loop       Boolean  @default(false)
+  updatedAt  DateTime @updatedAt
+}
